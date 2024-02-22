@@ -719,7 +719,7 @@ Gives the user the ability to initiate charging without having to book or reserv
 }
 ```
 
-**Other possible values of Remarks**
+**Other possible values of Remarks for Inquire**
 
 - **OUTSIDE_OF_LOCATION_AREA** - This remark indicates that the user is not in the required vicinity to enable activation of charging.
 - **CHARGER_OFFLINE** - Charger is offline.
@@ -727,6 +727,12 @@ Gives the user the ability to initiate charging without having to book or reserv
 - **TIMESLOT_OFFLINE** - Timeslot is offline.
 - **TIMESLOT_RESERVED** - Timeslot is reserved.
 - **CHARGER_AVAILABLE** - Charger is available and can be activated.
+
+**Other possible values of Remarks for Activate**
+
+- **USER_ALREADY_HAVE_EXISTING_CHARGING_SESSION** - Indicates that the user has existing charging session.
+- **CURRENT_TIMESLOT_IS_NOT_AVAILABLE** - Current timeslot for charger activation is not available.
+- **USER_ALREADY_HAVE_EXISTING_RESERVATION** - Indicates that the user has existing reservation.
 
 [Back to the top](#parkncharge-apis)
 
