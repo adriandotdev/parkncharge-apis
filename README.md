@@ -736,6 +736,41 @@ Gives the user the ability to initiate charging without having to book or reserv
 
 [Back to the top](#parkncharge-apis)
 
+### Reservation and ChargeNow Constraints
+
+#### ChargeNow
+
+1. NOT ALLOWED to CHARGE NOW if location of user is not valid.
+2. NOT ALLOWED to CHARGE NOW if evse uid does not exists.
+3. NOT ALLOWED to CHARGE NOW if charger is offline.
+4. NOT ALLOWED to CHARGE NOW if user has insufficient balance.
+5. NOT ALLOWED to CHARGE NOW if timeslot is offline.
+6. NOT ALLOWED to CHARGE NOW if timeslot is reserved.
+7. NOT ALLOWED to CHARGE NOW if timeslot is charging.
+8. Kapag ang current timeslot ay less than one (1) hour, and available ang next timeslot. Current timeslot is CHARGING, and next timeslot is RESERVED.
+9. Kapag ang current timeslot ay less than one (1) hour, and HINDI AVAILABLE ang next timeslot. Current timeslot is CHARGING.
+
+#### Reservation
+
+1. NOT ALLOWED to RESERVE if DRIVER ID is not found.
+2. NOT ALLOWED to RESERVE if evse uid is not found.
+3. NOT ALLOWED to RESERVE if timeslot id is not found.
+4. NOT ALLOWED to RESERVE if charger is offline
+5. NOT ALLOWED to RESERVE if RFID balance of user is insufficient.
+6. NOT ALLOWED to RESERVE if timeslot is IN_USE
+7. NOT ALLOWED to RESERVE if driver is already charging.
+8. NOT ALLOWED to RESERVE if driver has already reservation.
+9. NOT ALLOWED to RESERVE if timeslot is already occupied/reserved/charging
+10. IF the current time of user is greater than one (1) hour before the selected timeslot, then RESERVED that timeslot.
+11. IF the selected timeslot date is ahead of the current date, then RESERVE the timeslot.
+12. IF the current time of user is less than one (1) hour before the selected timeslot, AND next timeslot is available, then RESERVE the next timeslot.
+13. IF the current time of user is less than one (1) hour before the selected timeslot, AND next timeslot is NOT AVAILABLE, then RESERVATION MUST BE DECLINED.
+14. OTHERWISE
+    1. RESERVE the selected timeslot
+    2. IF the current time of user is less than one (1) hour and next timeslot is available, then RESERVE the next timeslot.
+
+[Back to the top](#parkncharge-apis)
+
 ## Nearby Locations in GraphQL
 
 ### Reservation Base URL
