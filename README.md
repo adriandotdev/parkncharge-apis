@@ -24,15 +24,20 @@ This repository includes all the details related to ParkNcharge APIs. It doesn't
   - [GET /booking_reservation/api/v1/slots/check-reservation/:evc_id/:timeslot_id](#get-apiv1slotscheck-reservationevc_idtimeslot_id)
   - [PUT /api/v1/slots/cancel-expired-reservations](#put-apiv1slotscancel-expired-reservations)
   - [POST /api/v1/charge_now](#post-apiv1charge_now)
+  - [POST /api/v1/slots/reservations/activate/:reservation_id](#post-apiv1slotsreservationsactivatereservation_id)
+  - [POST /api/v1/check_current_time_and_date](#post-apiv1check_current_time_and_date)
+  - [Reservation and Charge Now Constraints](#reservation-and-chargenow-constraints)
+    - [Reservation](#reservation-1)
+    - [Charge Now](#chargenow)
 - [Nearby Locations in GraphQL](#nearby-locations-in-graphql)
   - [Query cpo_owners](#query-cpo_owners)
   - [Query locations](#query-locations)
   - [Query locations_with_favorites](#query-location_with_favorites)
-  - [Remove from Favorite Location](#mutation-removefromfavoritelocation)
-  - [Add to Favorite Location](#mutation-addtofavoritelocation)
-  - [Favorite Locations](#query-favorte_locations)
-  - [Filter Locations](#query-filter_locations)
-  - [Filter Locations with Favorites](#query-filter_locations_with_favorites)
+  - [Mutation Remove from Favorite Location](#mutation-removefromfavoritelocation)
+  - [Mutation Add to Favorite Location](#mutation-addtofavoritelocation)
+  - [Query Favorite Locations](#query-favorte_locations)
+  - [Query Filter Locations](#query-filter_locations)
+  - [Query Filter Locations with Favorites](#query-filter_locations_with_favorites)
 - [Socket Server](#socket-server)
   - [Socket URL](#socket-url)
 
@@ -733,6 +738,72 @@ Gives the user the ability to initiate charging without having to book or reserv
 - **USER_ALREADY_HAVE_EXISTING_CHARGING_SESSION** - Indicates that the user has existing charging session.
 - **CURRENT_TIMESLOT_IS_NOT_AVAILABLE** - Current timeslot for charger activation is not available.
 - **USER_ALREADY_HAVE_EXISTING_RESERVATION** - Indicates that the user has existing reservation.
+
+[Back to the top](#parkncharge-apis)
+
+### POST /api/v1/slots/reservations/activate/:reservation_id
+
+**Description**
+
+This API activates user reservation for charging.
+
+**Authorization: BEARER_TOKEN**
+
+**Parameters**
+
+- reservation_id
+
+**Response**
+
+- USER_ALREADY_HAVE_EXISTING_CHARGING_SESSION
+- RESERVATION_NOT_FOUND
+- SUCCESS
+
+[Back to the top](#parkncharge-apis)
+
+### POST /api/v1/check_current_time_and_date
+
+**Description**
+
+This API checks if the user current time and date is valid to activate the charger specific timeslot.
+
+**Authorization: Bearer BASIC_TOKEN**
+
+**Request Body**
+
+- **timeslot_id** - Selected timeslot ID.
+- **current_time** - Current time of user.
+- **current_date** - Current date of user.
+- **timeslot_date** - Selected timeslot date.
+
+**Response**
+
+- **VALID_TO_ACTIVATE**
+- **INVALID_TO_ACTIVATE**
+
+**Example**
+
+Requesty Body
+
+```json
+{
+	"timeslot_id": 1,
+	"current_time": "05:53:00",
+	"current_date": "2024-02-29",
+	"timeslot_date": "2024-02-29"
+}
+```
+
+Response
+
+```json
+{
+	"status": 200,
+	"result": "INVALID_TO_ACTIVATE"
+}
+```
+
+The result is INVALID_TO_ACTIVATE because the current time is outside of the range of 6 am to 2 pm.
 
 [Back to the top](#parkncharge-apis)
 
